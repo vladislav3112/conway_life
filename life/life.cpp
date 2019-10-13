@@ -2,32 +2,39 @@
 using namespace std;
 
 int main() {
-	const int SIZE = 8;// фактический размер на 2 меньше, т.о. крайние случаи легче рассматривать
+	int size;// фактический размер на 2 меньше, т.о. крайние случаи легче рассматривать
 	char c;
 	int count = 0;
 	int gen_count = 1;
-	short array[SIZE][SIZE];
-	short niegh_count[SIZE][SIZE];
 
-	for (int i = 0; i < SIZE; i++)
+	setlocale(LC_ALL, "Russian");
+	cout << "¬ведите размер таблицы" << endl;
+	cin >> size;
+	size += 2;
+	short** array = new short*[size];
+	short** niegh_count = new short*[size];
+		for (int i = 0; i < size;i++) array[i] = new short[size];
+		for (int i = 0; i < size; i++) niegh_count[i] = new short[size];
+	
+	for (int i = 0; i < size; i++)
 	{
-		for (int j = 0; j < SIZE; j++)
+		for (int j = 0; j < size; j++)
 		{
 			array[i][j] = 0;
 			niegh_count[i][j] = 0;
 		}
 	}
 	
-	setlocale(LC_ALL, "Russian");
-	cout << "введите таблицу " << SIZE - 2 << " * " << SIZE - 2 << endl;
+	cout << "введите таблицу " << size - 2 << " * " << size - 2 << endl;
 	cout << "символ '.' -заполненна€ клетка;" << endl;
 	cout << "символ '#' - незаполненна€ клетка." << endl;
+	
 
-	for (int i = 1; i < SIZE - 1; i++)
+	for (int i = 1; i < size - 1; i++)
 	{
-		for (int j = 1; j < SIZE - 1; j++)
+		for (int j = 1; j < size - 1; j++)
 		{
-			cin.get(c);
+			cin>>c;
 			if (c == '.')
 				array[i][j] = 1;
 			else if (c != '#') {
@@ -44,9 +51,9 @@ int main() {
 		if (c == 'q')break;
 		cin.get(c);
 		cout << "поколение "<<gen_count<<"  :"<< endl;
-		for (int i = 1; i < SIZE - 1; i++)
+		for (int i = 1; i < size - 1; i++)
 		{
-			for (int j = 1; j < SIZE - 1; j++)
+			for (int j = 1; j < size - 1; j++)
 			{
 				count = array[i][j - 1] + array[i][j + 1]
 					+ array[i + 1][j - 1] + array[i + 1][j] + array[i + 1][j + 1]
@@ -56,9 +63,9 @@ int main() {
 			}
 		}
 
-		for (int i = 1; i < SIZE - 1; i++)
+		for (int i = 1; i < size - 1; i++)
 		{
-			for (int j = 1; j < SIZE - 1; j++)
+			for (int j = 1; j < size - 1; j++)
 			{
 				if (( (niegh_count[i][j] == 3) & (array[i][j] == 0)  )|
 					( ((niegh_count[i][j] == 3) | (niegh_count[i][j] == 2))&(array[i][j] == 1))  )array[i][j] = 1;
@@ -66,9 +73,9 @@ int main() {
 			}
 		}
 
-		for (int i = 1; i < SIZE - 1; i++)
+		for (int i = 1; i < size - 1; i++)
 		{
-			for (int j = 1; j < SIZE - 1; j++)
+			for (int j = 1; j < size - 1; j++)
 			{
 				if (array[i][j] == 1)cout << ".";
 				else cout << "#";
